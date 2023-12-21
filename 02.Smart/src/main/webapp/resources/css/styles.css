@@ -635,10 +635,11 @@ progress {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: calc(var(--bs-gutter-x) * 1.5);
+  padding-left: calc(var(--bs-gutter-x) * 1.5);
   margin-right: auto;
   margin-left: auto;
+  flex: 1 0 auto;
 }
 
 @media (min-width: 576px) {
@@ -10845,6 +10846,8 @@ textarea.form-control-lg {
 
 #page-content-wrapper {
   min-width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
 body.sb-sidenav-toggled #wrapper #sidebar-wrapper {

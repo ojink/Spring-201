@@ -13,6 +13,7 @@
         <link rel="icon" type="image/x-icon" href="<c:url value='/img/hanul.ico' />" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="<c:url value='/css/styles.css' />" rel="stylesheet" />
+        <link href="<c:url value='/css/common.css' />" rel="stylesheet" />
     </head>
     <body>
         <div class="d-flex" id="wrapper">
@@ -64,9 +65,13 @@
                     </div>
                 </nav>
                 <!-- Page content-->
-                <div class="container-fluid">
+                <div class="container-fluid my-5">
                     <tiles:insertAttribute name="container"/>
                 </div>
+                
+                <footer class="border-top py-4 text-center">
+                	<div>Copyright &copy; My Website 2023</div>
+                </footer>
             </div>
         </div>
         <!-- Bootstrap core JS-->
