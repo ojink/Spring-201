@@ -8,6 +8,13 @@
 </head>
 <body>
 <h3 class="mb-4">사원목록</h3>
+
+<div class="row mb-2 ">
+	<div class="col-auto">
+		<a  class="btn btn-primary" href="register">신규사원등록</a>
+	</div>
+</div>
+
 <table class="table tb-list">
 <colgroup>
 	<col width='80px'>

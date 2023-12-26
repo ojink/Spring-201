@@ -14,6 +14,25 @@ import kr.co.smart.hr.HrService;
 public class HrController {
 	@Autowired private HrService service;
 	
+	//신규사원등록 삽입저장처리 요청
+	@RequestMapping("/insert")
+	public String register(EmployeeVO vo) {
+		//화면에서 입력한 정보로 DB에 삽입저장 -> 목록화면으로 연결
+		service.employee_register(vo);
+		return "redirect:list";
+	}
+	
+	
+	//신규사원등록 화면 요청
+	@RequestMapping("/register")
+	public String register(Model model) {
+		//부서/업무/매니저를 선택할 수 있도록 DB에서 조회해와 화면에 출력-> Model 객체에 담기
+		model.addAttribute("departments", service.hr_department_list());
+		model.addAttribute("jobs", service.hr_job_list());
+		model.addAttribute("managers", service.hr_manager_list());
+		return "hr/register";
+	}
+	
 	//사원정보 변경저장처리 요청
 	@RequestMapping("/update")
 	public String update(EmployeeVO vo) {

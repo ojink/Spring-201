@@ -13,7 +13,7 @@ public class HrService {
 	//CRUD
 	//신규사원등록
 	public int employee_register(EmployeeVO vo) {
-		return 0;
+		return sql.insert("hr.insert", vo);
 	}
 	//사원목록조회
 	public List<EmployeeVO> employee_list() {
@@ -41,6 +41,10 @@ public class HrService {
 	//우리회사 전체 업무목록 조회
 	public List<JobVO> hr_job_list(){
 		return sql.selectList("hr.jobList");
+	}
+	//우리회사 매니저로 적용할 모든 사원목록 조회(이름순 정렬)
+	public List<EmployeeVO> hr_manager_list(){
+		return sql.selectList("hr.managerList");
 	}
 	
 	

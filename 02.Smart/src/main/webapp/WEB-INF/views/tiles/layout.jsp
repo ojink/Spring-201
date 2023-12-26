@@ -30,7 +30,7 @@
         <script type="text/javascript" 
         		src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
        	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-       	<script src="<c:url value='/js/common.js'    />?<%=new java.util.Date() %>"></script> 		
+       	<script src="<c:url value='/js/common.js' />?<%=new java.util.Date() %>"></script> 		
     </head>
     <body>
         <div class="d-flex" id="wrapper">

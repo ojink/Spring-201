@@ -38,6 +38,9 @@
 <tr><th>업무</th>
 	<td>${vo.job_title }</td>
 </tr>
+<tr><th>매니저</th>
+	<td>${vo.manager_name }</td>
+</tr>
 </table>
 
 <div class="btn-toolbar justify-content-center gap-2">
