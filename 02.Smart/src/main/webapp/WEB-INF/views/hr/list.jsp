@@ -7,14 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>사원목록</h3>
+<h3 class="mb-4">사원목록</h3>
 <table class="table tb-list">
 <colgroup>
 	<col width='80px'>
 	<col width='250px'>
 	<col width='300px'>
 	<col>
-	<col width='120px'>
+	<col width='140px'>
 </colgroup>
 <tr>
 	<th>사번</th>
@@ -26,7 +26,7 @@
 <c:forEach items="${list }" var="vo">
 <tr>
 	<td>${vo.employee_id }</td>
-	<td>${vo.name }</td>
+	<td><a class="text-link" href="info?id=${vo.employee_id}">${vo.name }</a></td>
 <%-- 	<td>${vo.last_name } ${vo.first_name }</td> --%>
 	<td>${vo.department_name }</td>
 	<td>${vo.job_title }</td>
