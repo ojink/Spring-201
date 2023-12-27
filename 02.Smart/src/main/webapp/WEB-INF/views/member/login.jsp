@@ -16,7 +16,7 @@
 					<a href="<c:url value='/'/>"><img src="<c:url value='/img/hanul.logo.png'/>"></a>	
 				</h3></div>
             <div class="card-body">
-                <form>
+                <form method="post" action="smartLogin">
                     <div class="form-floating mb-3">
                         <input class="form-control" name="user_id" type="text" placeholder="아이디">
                         <label>아이디</label>
@@ -25,21 +25,19 @@
                         <input class="form-control" name="user_pw" type="password" placeholder="비밀번호">
                         <label>비밀번호</label>
                     </div>
-                    <button class="btn btn-primary form-control">로그인</button>
+                    <button class="py-3 btn btn-primary form-control">로그인</button>
                     <!--  
                     <div class="form-check mb-3">
                         <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="">
                         <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                     </div>
                     -->
+                    <hr>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                        <a class="small" href="password.html">Forgot Password?</a>
-                        <a class="btn btn-primary" href="index.html">Login</a>
+                        <a class="small" href="">회원가입</a>
+                        <a class="small" href="">비밀번호찾기</a>
                     </div>
                 </form>
-            </div>
-            <div class="card-footer text-center py-3">
-                <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
             </div>
         </div>
     </div>
