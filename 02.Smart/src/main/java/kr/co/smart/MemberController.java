@@ -1,5 +1,7 @@
 package kr.co.smart;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -32,9 +34,22 @@ public class MemberController {
 		if( vo==null ) {
 			msg.append( "alert('아이디나 이메일이 맞지 않습니다. \\n확인하세요!'); " );
 			msg.append( "location='findPassword'" );
+		}else {
+			//화면에서 입력한 아이디와 이메일이 일치하는 회원에게 
+			//임시비밀번호를 발급해 이메일로 보내기
+			String pw = UUID.randomUUID().toString(); 		//afdhl324_aerhlu3487ar_ahlh421er
+			pw = pw.substring( pw.lastIndexOf("-")+1 );    	//ahlh421er
+			vo.setUser_pw( pwEncoder.encode(pw) );
+			
+			if( service.member_resetPassword(vo)==1 && common.sendPassword(vo, pw) ) {
+				msg.append( "alert('임시 비밀번호가 발급되었습니다. \\n이메일을 확인하세요.'); " );
+				msg.append( "location='login' " );
+			}else {
+				msg.append( "alert('임시 비밀번호 발급 실패ㅠㅠ'); " );
+				msg.append( "history.go(-1) " );
+			}
+			
 		}
-		//화면에서 입력한 아이디와 이메일이 일치하는 회원에게 
-		//임시비밀번호를 발급해 이메일로 보내기
 		
 		msg.append("</script>");
 		return msg.toString();

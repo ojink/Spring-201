@@ -23,6 +23,22 @@ public class DBTest {
 	
 	
 	@Test
+	public void reset() {
+		MemberVO vo  = new MemberVO();
+		Scanner sc = new Scanner(System.in);
+		System.out.print("아이디: ");
+		
+		vo.setUser_id( sc.next() );
+		
+		System.out.print("비번: ");
+		vo.setUser_pw(  pwEncoder.encode( sc.next() ) );
+		
+		sql.update("member.resetPassword", vo);
+		
+		sc.close();
+	}
+	
+	@Test
 	public void login() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("아이디: ");
