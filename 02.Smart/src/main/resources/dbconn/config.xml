@@ -41,6 +41,7 @@
 </bean>
 
 <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+<!-- <bean class="kr.co.smart.common.CommonUtility"/> -->
 
 
 </beans>
