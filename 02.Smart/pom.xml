@@ -15,6 +15,23 @@
 	</properties>
 	<dependencies>
 		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		    <scope>test</scope>
+		</dependency>
+				
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.7.5</version>
+		</dependency>
+		
+		
 		<!-- 필드에 대한 getter/setter, 생성자선언 -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
