@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +20,37 @@ public class MemberController {
 	@Autowired private CommonUtility common;
 	@Autowired private MemberService service;
 	@Autowired private BCryptPasswordEncoder pwEncoder;
+	
+	//새비밀번호로 변경저장 처리 요청
+	@ResponseBody @RequestMapping("/updatePassword")
+	public boolean updatePassword(String user_pw, HttpSession session) {
+		//세션의 로그인정보 꺼내기
+		MemberVO vo = (MemberVO)session.getAttribute("loginInfo");
+		//입력 새비번을 암호화하기
+		vo.setUser_pw(  pwEncoder.encode(user_pw) );
+		
+		return service.member_resetPassword(vo) == 1 ? true : false;
+	}
+	
+	//현재비밀번호 확인처리 요청
+	@ResponseBody @RequestMapping("/confirmPassword")
+	public int confirmPassword(String user_pw, HttpSession session) {
+		//세션의 로그인정보 꺼내기
+		MemberVO vo = (MemberVO)session.getAttribute("loginInfo");
+		if( vo==null ) {
+			//로그인이 안 되어 있다면 로그인 화면으로 연결되도록
+			return -1;
+		}else {
+			//입력한 현재 비번이 DB의 비번과 일치하는지
+			return pwEncoder.matches(user_pw, vo.getUser_pw()) ? 0 : 1;
+		}
+	}
+	
+	//비밀번호변경화면 요청
+	@RequestMapping("/changePassword")
+	public String changePassword() {
+		return "member/password";
+	}
 	
 	//임시비밀번호 발급처리 요청
 	@ResponseBody @RequestMapping(value="/resetPassword"
