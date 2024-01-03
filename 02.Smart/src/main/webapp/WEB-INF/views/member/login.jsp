@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#naver { background: url(""); }
+#naver { background: url("<c:url value='/img/naver.png'/>") center/contain no-repeat #03c75a; }
 #kakao { background: url(""); }
 </style>
 </head>
@@ -50,6 +50,15 @@
         </div>
     </div>
 </div>
+
+<script>
+
+$("#naver, #kakao").click(function(){
+// 	console.log( $(this).attr("id") + "Login" )
+	location =  $(this).attr("id") + "Login";
+})
+	
+</script>
 
 </body>
 </html>
