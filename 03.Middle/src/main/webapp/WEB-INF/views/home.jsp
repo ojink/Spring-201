@@ -39,10 +39,44 @@
 비번: <input type="password" id="user_pw">
 <a href="" target="_blank" id="login">로그인 </a>
 </div>
+<hr>
+<form method="post" enctype="multipart/form-data" action="<c:url value='/member/join'/>">
+	<div>회원명: <input type="text" name="name" value="신규회원명"></div>
+	<div>아이디: <input type="text" name="user_id" value="new001"></div>
+	<div>비번: <input type="password" name="user_pw" value="New001"></div>
+	<div>성별: <input type="text" name="gender" value="남"></div>
+	<div>이메일: <input type="text" name="email" value="new001@hrd.go.kr"></div>
+	<div>주소: <input type="text" name="address" value="광주 서구 경열로 3"></div>
+	<div>우편번호: <input type="text" name="post" value="12345"></div>
+	<div>전화번호: <input type="text" name="phone" value="010-1234-5678"></div>
+	<div>생년월일: <input type="text" name="birth" value="2001-05-08"></div>
+	<div>프로필: <input type="file" name="andFile"></div>
+	<div><button  onclick="setData()">회원가입</button></div>
+	<input type="hidden" name="vo">
+</form>
+
+
 
 <script type="text/javascript" 
         		src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
+
+function setData(){
+	var Member = {};
+	Member.name = $("[name=name]").val();
+	Member.user_id = $("[name=user_id]").val();
+	Member.user_pw = $("[name=user_pw]").val();
+	Member.gender = $("[name=gender]").val();
+	Member.email = $("[name=email]").val();
+	Member.address = $("[name=address]").val();
+	Member.post = $("[name=post]").val();
+	Member.phone = $("[name=phone]").val();
+	Member.birth = $("[name=birth]").val();
+	$("[name=vo]").val(  JSON.stringify(Member)  )
+	console.log(JSON.stringify(Member) )
+}
+
+
 $("#login").click(function(){
 	$(this).attr("href"
 			, "<c:url value='/member/login'/>?user_id=" + $("#user_id").val()
