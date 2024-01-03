@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#naver { background: url(""); }
+#kakao { background: url(""); }
+</style>
 </head>
 <body>
 
@@ -32,12 +36,16 @@
                         <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                     </div>
                     -->
+                </form>
                     <hr>
+                    <div class="d-flex gap-3">
+                    	<input type="button" class="form-control p-3" id="naver">
+                    	<input type="button" class="form-control p-3" id="kakao">
+                    </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                         <a class="small" href="">회원가입</a>
                         <a class="small" href="findPassword">비밀번호찾기</a>
                     </div>
-                </form>
             </div>
         </div>
     </div>
@@ -45,3 +53,9 @@
 
 </body>
 </html>
+
+
+
+
+
+

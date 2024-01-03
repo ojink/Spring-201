@@ -29,10 +29,10 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session, Model model) {
 		//테스트하는 동안 사용할 수 있도록 임시 로그인처리 ----------------------
-		String user_id = "hanul201", user_pw = "4fd41d224be2" ;
+		String user_id = "hanul201", user_pw = "Hanul20100" ;
 		MemberVO vo = member.member_info(user_id);
 		if( pwEncoder.matches(user_pw, vo.getUser_pw()) ) {
-			session.setAttribute("loginInfo", vo);
+//			session.setAttribute("loginInfo", vo);
 		}
 		//---------------------------------------------------------
 		
