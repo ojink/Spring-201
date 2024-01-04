@@ -8,11 +8,13 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.mail.HtmlEmail;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import kr.co.smart.member.MemberVO;
 
-@Service
+@Service @PropertySource("classpath:info.properties")
 public class CommonUtility {
 	
 	
@@ -76,13 +78,14 @@ public class CommonUtility {
 	
 	
 	
-	private String EMAIL = "itstudydev@naver.com"; //관리자의 이메일주소
+	@Value("${EMAIL_ADDRESS}") private String EMAIL; //관리자의 이메일주소
+	@Value("${EMAIL_PW}") private String EMAIL_PW; //관리자의 이메일주소
 	private void connectMailServer( HtmlEmail mail ) {
 		mail.setDebug(true);
 		mail.setCharset("utf-8");
 		
 		mail.setHostName( "smtp.naver.com" );
-		mail.setAuthentication( EMAIL, "Itstudy10102"); //관리자의 이메일주소, 해당 이메일의 비번
+		mail.setAuthentication( EMAIL, EMAIL_PW); //관리자의 이메일주소, 해당 이메일의 비번
 		mail.setSSLOnConnect(true); //로그인버튼 클릭
 	}
 	

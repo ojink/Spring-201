@@ -1,6 +1,7 @@
 /.metadata/
 /Servers/
 /*/target/
+/02.Smart/src/main/resources/info.properties
 
 # Compiled class file
 *.class
