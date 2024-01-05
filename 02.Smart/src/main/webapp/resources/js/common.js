@@ -46,8 +46,9 @@ $(function() {
 		var _delete = $(this).closest(".file-info").find(".file-delete")
 
 		var attached = this.files[0];
+		console.log('attached> ', attached)
+		
 		if (attached) {
-			console.log('name> ', attached.name)
 			//파일크기제한을 두고자 한다면
 			if (rejectFile(attached, $(this))) return;
 
@@ -73,8 +74,9 @@ $(function() {
 				initFileInfo( $(this) )
 			}
 
-			console.log('attached> ', $(this).val())
+			console.log('file> ', $(this).val())
 		}
+		
 	})
 
 	$(".file-delete").click(function() {
@@ -99,7 +101,7 @@ function initFileInfo( tag ){
 //파일크기제한
 function rejectFile(fileInfo, tag) {
 	// 1K=1024, 1M=1024*1024, 1G=1024*1024*1024
-	if (fileInfo.size > 1024 * 100) { //10M
+	if (fileInfo.size > 1024 * 1024 * 10) { //10M
 		alert("10Mb 를 넘는 파일은 첨부할 수 없습니다")
 //		tag.val("");
 //		//이전에 이미지선택된게 있었다면 미리보기도 없애야 한다
@@ -121,7 +123,14 @@ function isImage(filename) {
 }
 
 
-
+//입력여부확인
+function emptyCheck(){
+	
+	$(".check-empty").each(function(){
+		
+	})
+	
+}
 
 
 

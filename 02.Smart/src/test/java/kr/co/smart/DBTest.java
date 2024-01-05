@@ -83,7 +83,10 @@ public class DBTest {
 		
 		System.out.print("이메일: ");
 		vo.setEmail( sc.next() );
-			
+		
+		System.out.print("관리자?(Y/N)");
+		vo.setRole( sc.next().toLowerCase().equals("y") ? "ADMIN" : "USER" ); 
+		
 		sc.close();
 		
 		int dml = sql.insert("member.joinTest", vo);
