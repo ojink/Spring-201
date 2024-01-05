@@ -24,25 +24,31 @@
 
 <table class="table tb-list">
 <colgroup>
+	<col width='80px'>
 	<col>
 	<col width='120px'>
 	<col width='140px'>
+	<col width='100px'>
 </colgroup>
 <tr>
+	<th>번호</th>
 	<th>제목</th>
 	<th>작성자</th>
 	<th>작성일자</th>
+	<th>첨부파일</th>
 </tr>
 
 <c:if test="${ empty list }">
-<tr><td colspan="3">공지글이 없습니다</td></tr>
+<tr><td colspan="4">공지글이 없습니다</td></tr>
 </c:if>
 
 <c:forEach items="${list}" var="vo">
 <tr>
+	<td>${vo.no}</td>
 	<td class="text-start"><a href="info?id=${vo.id}" class="text-link">${vo.title }</a></td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
+	<td><c:if test="${ !empty vo.filename}"><i class="fa-solid fa-paperclip"></i></c:if></td>
 </tr>
 </c:forEach>
 

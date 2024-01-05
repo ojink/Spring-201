@@ -44,6 +44,7 @@ $(function() {
 	$("input#file-single").change(function() {
 		var _preview = $(this).closest(".file-info").find(".file-preview")
 		var _delete = $(this).closest(".file-info").find(".file-delete")
+		var _name = $(this).closest(".file-info").find(".file-name")
 
 		var attached = this.files[0];
 		console.log('attached> ', attached)
@@ -51,10 +52,12 @@ $(function() {
 		if (attached) {
 			//파일크기제한을 두고자 한다면
 			if (rejectFile(attached, $(this))) return;
+			
+			_name.text( attached.name );	//파일명 보이게
+			_delete.removeClass("d-none") 	//삭제버튼 보이게
 
 			//이미지만 첨부해야한다면
-			if (isImage(attached.name)) {
-				_delete.removeClass("d-none") //삭제보이게
+			if ( isImage(attached.name) ) {
 
 				if (_preview.length > 0) {
 					_preview.html("<img>");
@@ -69,9 +72,9 @@ $(function() {
 				}
 
 			} else {
-//				_preview.empty();  // _preview.children("img").remove()
-//				$(this).val("");
-				initFileInfo( $(this) )
+				if( $(this).hasClass("image-only") ){
+					initFileInfo( $(this) )
+				}
 			}
 
 			console.log('file> ', $(this).val())
@@ -90,12 +93,13 @@ $(function() {
 
 })
 
-//선택했던 파일정보 삭제. 미리보기도 안보이게, 삭제버튼도 안보이게
+//선택했던 파일정보 삭제. 미리보기도 안보이게, 삭제버튼도 안보이게, 
 function initFileInfo( tag ){
 	var _info = tag.closest(".file-info");
-	_info.find(".file-preview").empty();
-	_info.find("input[type=file]").val("");
-	_info.find(".file-delete").addClass("d-none")
+	_info.find(".file-name").empty(); 				//선택한 파일명 안보이게
+	_info.find(".file-preview").empty(); 			//미리보기 이미지 안보이게
+	_info.find("input[type=file]").val(""); 		//선택한 파일정보 초기화
+	_info.find(".file-delete").addClass("d-none") 	//삭제버튼 안보이게
 }
 
 //파일크기제한
@@ -125,11 +129,16 @@ function isImage(filename) {
 
 //입력여부확인
 function emptyCheck(){
-	
+	var ok = true;
 	$(".check-empty").each(function(){
-		
+		if( $(this).val()=="" ){
+			alert( $(this).attr("title") + " 입력하세요!" );
+			$(this).focus();
+			ok = false;
+			return ok;
+		}
 	})
-	
+	return ok;	
 }
 
 

@@ -13,7 +13,7 @@ public class NoticeService {
 	
 	//신규공지글저장
 	public int notice_register(NoticeVO vo) {
-		return 0;
+		return sql.insert("notice.register", vo);
 	}
 	//공지글목록 조회
 	public List<NoticeVO> notice_list() {
@@ -33,6 +33,6 @@ public class NoticeService {
 	}
 	//공지글정보 삭제
 	public int notice_delete(int id) {
-		return 0;
+		return sql.delete("notice.delete", id);
 	}
 }
