@@ -9,6 +9,8 @@
 <body>
 <h3 class="mb-4">공지글목록</h3>
 
+<form method="post" action="list">
+<input type="hidden" name="curPage" value="1">
 <div class="row mb-2 justify-content-between">
 	<div class="col-auto">
 	</div>
@@ -20,6 +22,7 @@
 	</div>
 	</c:if>
 </div>
+</form>
 
 
 <table class="table tb-list">
