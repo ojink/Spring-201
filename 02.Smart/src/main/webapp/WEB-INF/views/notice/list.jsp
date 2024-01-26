@@ -11,8 +11,19 @@
 
 <form method="post" action="list">
 <input type="hidden" name="curPage" value="1">
+
 <div class="row mb-2 justify-content-between">
 	<div class="col-auto">
+		<div class="input-group">
+		<select name="search" class="form-select">
+			<option value="all" ${page.search eq "all" ? "selected" : ""}>전체</option>
+			<option value="title"  <c:if test="${page.search eq 'title'}">selected</c:if> >제목</option>
+			<option value="content" ${page.search eq "content" ? "selected" : ""}>내용</option>
+			<option value="writer" ${page.search eq "writer" ? "selected" : ""}>작성자</option>
+		</select>
+		<input type="text" name="keyword" class="form-control" value="${page.keyword }">
+		<button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+		</div>
 	</div>
 	<!-- 관리자로 로그인되어 있는 경우만 -->
 	<c:if test="${loginInfo.role == 'ADMIN'}">

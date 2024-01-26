@@ -20,6 +20,7 @@ public class PageVO {
 	private int curBlock, curPage = 1;
 	private int beginPage, endPage;
 	private List<Object> list;
+	private String search="all", keyword="";
 	
 	public void setTotalList(int totalList) {
 		this.totalList = totalList;
