@@ -63,7 +63,7 @@ $("#btn-list").click(function(){
 	location = "list";
 })
 $("#btn-modify").click(function(){
-
+	location = "modify?id=${vo.id}";
 })
 $("#btn-delete").click(function(){
 	if( confirm("정말 삭제하시겠습니까?") ){
