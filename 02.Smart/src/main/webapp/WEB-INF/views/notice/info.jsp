@@ -53,6 +53,7 @@
 	</c:if>
 	
 </div>
+<c:set var="params" value="curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}"/>
 
 <script>
 $(".file-download").click(function(){
@@ -60,14 +61,14 @@ $(".file-download").click(function(){
 })
 
 $("#btn-list").click(function(){
-	location = "list";
+	location = "list?${params}";
 })
 $("#btn-modify").click(function(){
-	location = "modify?id=${vo.id}";
+	location = "modify?id=${vo.id}&${params}";
 })
 $("#btn-delete").click(function(){
 	if( confirm("정말 삭제하시겠습니까?") ){
-		location = "delete?id=${vo.id}"
+		location = "delete?id=${vo.id}&${params}"
 	}
 })
 </script>

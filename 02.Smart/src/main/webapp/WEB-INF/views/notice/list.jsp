@@ -59,7 +59,9 @@
 <c:forEach items="${page.list}" var="vo">
 <tr>
 	<td>${vo.no}</td>
-	<td class="text-start"><a href="info?id=${vo.id}" class="text-link">${vo.title }</a></td>
+	<td class="text-start">
+		<a href="info?id=${vo.id}&curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}" 
+							class="text-link">${vo.title }</a></td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
 	<td><c:if test="${ !empty vo.filename}"><i class="fa-solid fa-paperclip"></i></c:if></td>

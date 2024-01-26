@@ -39,6 +39,9 @@
 </tr>
 </table>
 <input type="hidden" name="filename" >
+<input type="hidden" name="curPage" value="${page.curPage}" >
+<input type="hidden" name="keyword" value="${page.keyword}" >
+<input type="hidden" name="search" value="${page.search}" >
 </form>
 
 <div class="btn-toolbar justify-content-center gap-2">
@@ -54,7 +57,7 @@ $("#btn-save").click(function(){
 	}
 })
 $("#btn-cancel").click(function(){
-	location = "info?id=${vo.id}"
+	location = "info?id=${vo.id}&curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}"
 })
 </script>
 

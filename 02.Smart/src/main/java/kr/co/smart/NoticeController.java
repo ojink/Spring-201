@@ -1,5 +1,8 @@
 package kr.co.smart;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +25,8 @@ public class NoticeController {
 	
 	//공지글 변경저장처리 요청
 	@RequestMapping("/update")
-	public String update(NoticeVO vo, MultipartFile file, HttpServletRequest request ) {
+	public String update(NoticeVO vo, PageVO page, MultipartFile file
+						, HttpServletRequest request ) throws Exception {
 		//원래 공지글정보를 조회해두자
 		NoticeVO notice = service.notice_info(vo.getId());
 		// vo의 filename, filepath 에 정보는 어떨때 담기는가..
@@ -59,14 +63,19 @@ public class NoticeController {
 			}
 		}
 		
-		return "redirect:info?id=" + vo.getId();
+		return "redirect:info?id=" + vo.getId()
+					+ "&curPage=" + page.getCurPage()
+					+ "&search=" + page.getSearch()
+					+ "&keyword=" + URLEncoder.encode(page.getKeyword(), "utf-8" )
+			;
 	}
 	
 	//공지글 수정화면 요청
 	@RequestMapping("/modify")
-	public String modify(int id, Model model) {
+	public String modify(int id, Model model, PageVO page) {
 		//해당 공지글 정보를 DB에서 조회해와 수정화면에 출력 -> Model에 데이터 담기
 		model.addAttribute("vo", service.notice_info(id));		
+		model.addAttribute("page", page);		
 		return "notice/modify";
 	}
 	
@@ -74,14 +83,17 @@ public class NoticeController {
 	
 	//공지글 삭제처리 요청
 	@RequestMapping("/delete")
-	public String delete(int id, HttpServletRequest request) {
+	public String delete(int id, PageVO page, HttpServletRequest request) throws Exception{
 		//첨부파일을 물리적인 파일을 찾아 삭제할 수 있도록 미리 조회해둔다
 		NoticeVO vo = service.notice_info(id);
 		//해당 공지글을 DB에서 삭제한 후 목록화면으로 연결
 		if( service.notice_delete(id)==1 ) {
 			common.fileDelete( vo.getFilepath(), request );
 		}
-		return "redirect:list";
+		return "redirect:list"
+				+ "?curPage=" + page.getCurPage()
+				+ "&search=" + page.getSearch()
+				+ "&keyword=" + URLEncoder.encode(page.getKeyword(), "utf-8" );
 	}
 	
 	//공지글 첨부파일 다운처리 요청
@@ -119,9 +131,10 @@ public class NoticeController {
 	
 	//공지글정보화면 요청
 	@RequestMapping("/info")
-	public String info(int id, Model model) {
+	public String info(int id, Model model, PageVO page) {
 		service.notice_read(id);
 		//선택한 공지글정보를 DB에서 조회해와 화면에 출력할 수 있도록 Model객체에 담기
+		model.addAttribute("page", page);
 		model.addAttribute("vo", service.notice_info(id));
 		model.addAttribute("crlf", "\r\n");
 		return "notice/info";
