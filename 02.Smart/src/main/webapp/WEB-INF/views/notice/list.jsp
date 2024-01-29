@@ -60,6 +60,8 @@
 <tr>
 	<td>${vo.no}</td>
 	<td class="text-start">
+		<span style="margin-left: ${15*vo.indent}px"></span>
+		<c:if test="${vo.indent > 0}"><i class="fa-regular fa-comment-dots"></i></c:if>
 		<a href="info?id=${vo.id}&curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}" 
 							class="text-link">${vo.title }</a></td>
 	<td>${vo.name }</td>

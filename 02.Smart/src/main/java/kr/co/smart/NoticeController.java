@@ -70,6 +70,34 @@ public class NoticeController {
 			;
 	}
 	
+	//공지글 답글저장처리 요청
+	@RequestMapping("/replyInsert")
+	public String replyInsert(NoticeVO vo, PageVO page
+							, MultipartFile file, HttpServletRequest request) 
+											throws UnsupportedEncodingException {
+		//화면에서 입력한 정보로 DB에 답글신규저장처리
+		if( ! file.isEmpty() ) {
+			vo.setFilename( file.getOriginalFilename() );
+			vo.setFilepath( common.fileUpload("notice", file, request) );
+		}
+		service.notice_replyRegister(vo);
+		
+		return "redirect:list?curPage=" + page.getCurPage()
+					+ "&search=" + page.getSearch()
+					+ "&keyword=" + URLEncoder.encode( page.getKeyword(), "utf-8" );
+	}
+	
+	
+	//공지글 답글쓰기화면 요청
+	@RequestMapping("/reply")
+	public String reply(int id, PageVO page, Model model) {
+		//원글정보를 조회해와 답글화면에 사용할 수 있도록 Model에 담기
+		model.addAttribute("vo", service.notice_info(id));
+		model.addAttribute("page", page);
+		return "notice/reply";
+	}
+	
+	
 	//공지글 수정화면 요청
 	@RequestMapping("/modify")
 	public String modify(int id, Model model, PageVO page) {

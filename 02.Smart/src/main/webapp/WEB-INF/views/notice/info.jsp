@@ -51,6 +51,10 @@
 	<button class="btn btn-primary" id="btn-modify">정보수정</button>
 	<button class="btn btn-primary" id="btn-delete">정보삭제</button>
 	</c:if>
+	<!-- 로그인한 사용자가 답글쓰기 가능하다고 하자 -->
+	<c:if test="${ ! empty loginInfo }">
+	<button class="btn btn-primary" id="btn-reply">답글쓰기</button>
+	</c:if>
 	
 </div>
 <c:set var="params" value="curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}"/>
@@ -59,7 +63,9 @@
 $(".file-download").click(function(){
 	location = "download?id=${vo.id}"
 })
-
+$("#btn-reply").click(function(){
+	location = "reply?id=${vo.id}&${params}"
+})
 $("#btn-list").click(function(){
 	location = "list?${params}";
 })
