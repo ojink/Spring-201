@@ -1,5 +1,10 @@
 package kr.co.smart.common;
 
-public class FileVO {
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
+public class FileVO {
+	private int id;
+	private String filename, filepath;
 }

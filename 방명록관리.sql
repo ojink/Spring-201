@@ -36,5 +36,22 @@ filepath    varchar2(300) not null,
 board_id    number constraint board_file_fk references board(id) on delete cascade
 );
 
-
 -- 방명록 댓글 관리
+insert into board( title, content, writer )
+values ( '방명록 글1','방명록 글입니다','hong2023' )
+;
+insert into board( title, content, writer )
+values ( '방명록 글2','방명록 글입니다','park2023' )
+;
+commit;
+
+select user_id from member;
+
+
+
+
+
+
+
+
+
