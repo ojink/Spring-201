@@ -3,7 +3,7 @@ rename  hanul_member to member;
 desc hanul_member;
 alter table member add ( 
    role varchar2(10) default 'USER' not null, -- USER/ADMIN
-   gender varchar2(3) default '³²' not null,
+   gender varchar2(3) default 'ë‚¨' not null,
    profile varchar2(300)
 );
 
@@ -24,7 +24,7 @@ commit;
 select user_id, email, name, social,role, profile from member;
 desc member;
 
--- ¼Ò¼È·Î±×ÀÎ½Ã id ÀÇ ±æÀÌ¸¦ °í·ÁÇØ¼­ user_id ÀÇ ÄÃ·³»çÀÌÁî º¯°æÇÏ±â
+-- ì†Œì…œë¡œê·¸ì¸ì‹œ id ì˜ ê¸¸ì´ë¥¼ ê³ ë ¤í•´ì„œ user_id ì˜ ì»¬ëŸ¼ì‚¬ì´ì¦ˆ ë³€ê²½í•˜ê¸°
 alter table member modify( user_id varchar2(100) );
 alter table member modify (email null);
 

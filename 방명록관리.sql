@@ -1,4 +1,4 @@
---¹æ¸í·Ï °ü¸®
+--ë°©ëª…ë¡ ê´€ë¦¬
 create table board (
 id         number constraint board_id_pk primary key,
 title      varchar2(300) not null,
@@ -28,7 +28,7 @@ end;
 /
 
 
--- ¹æ¸í·Ï Ã·ºÎÆÄÀÏÁ¤º¸ °ü¸®
+-- ë°©ëª…ë¡ ì²¨ë¶€íŒŒì¼ ê´€ë¦¬
 create table board_file (
 id          number constraint board_file_id_pk primary key,
 filename    varchar2(300) not null,
@@ -37,4 +37,4 @@ board_id    number constraint board_file_fk references board(id) on delete casca
 );
 
 
---¹æ¸í·Ï ´ñ±Û °ü¸®
+-- ë°©ëª…ë¡ ëŒ“ê¸€ ê´€ë¦¬

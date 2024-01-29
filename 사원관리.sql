@@ -1,4 +1,4 @@
--- »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏÀÚ, ºÎ¼­¸í, ¾÷¹«Á¦¸ñ Á¶È¸
+-- ì‚¬ë²ˆ, ì‚¬ì›ëª…, ì…ì‚¬ì¼ì, ë¶€ì„œëª…, ì—…ë¬´ì œëª© ì¡°íšŒ
 select employee_id, last_name, first_name, hire_date, d.department_id, department_name, job_title
 from employees e, departments d, jobs j
 where e.department_id = d.department_id(+) and e.job_id = j.job_id
@@ -26,7 +26,7 @@ from employees e left outer join departments d
 using ( department_id )
 ;
 
--- ºÎ¼­¸í(department_name), ¾÷¹«Á¦¸ñ(job_title) Ãß°¡Á¶È¸µÇ°Ô Äõ¸®¹® ¿Ï¼ºÇÏ±â
+-- ë¶€ì„œëª…(department_name), ì—…ë¬´ì œëª©(job_title) ì¶”ê°€ì¡°íšŒë˜ê²Œ ì¿¼ë¦¬ë¬¸ ì™„ì„±í•˜ê¸°
 select department_name, job_title, last_name||' '||first_name name, e.* 
 from employees e left outer join departments d on e.department_id = d.department_id
 inner join jobs j  on j.job_id = e.job_id
@@ -35,8 +35,8 @@ inner join jobs j  on j.job_id = e.job_id
 
 select * from departments;
 
--- »ç¿øÀÌ ÀÖ´Â ºÎ¼­¸ñ·Ï Á¶È¸ (ºÎ¼­ÄÚµå,ºÎ¼­¸í)
-select distinct department_id, nvl(department_name, '¼Ò¼Ó¾øÀ½') department_name
+-- ì‚¬ì›ì´ ìˆëŠ” ë¶€ì„œëª©ë¡ ì¡°íšŒ (ë¶€ì„œì½”ë“œ,ë¶€ì„œëª…)
+select distinct department_id, nvl(department_name, 'ì†Œì†ì—†ìŒ') department_name
 from employees e left outer join departments d using(department_id)
 order by department_name;
 

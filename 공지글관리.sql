@@ -1,4 +1,4 @@
---°øÁö±Û °ü¸®
+--ê³µì§€ê¸€ ê´€ë¦¬
 create table notice (
 id       number constraint notice_id_pk primary key, 
 title    varchar2(300) not null,
@@ -14,8 +14,8 @@ indent   number default 0,
 rid      number,
 constraint notice_writer_fk foreign key(writer) 
                         references member(user_id) 
-                        -- ÀÛ¼ºÀÚÀÎ È¸¿øÁ¤º¸¸¦ »èÁ¦½Ã 1. writer ÄÃ·³¿¡ null
-                        --                         2. ÇØ´ç writer°¡ ¾´ ±ÛÀ» ¸ğµÎ »èÁ¦
+                        -- ì‘ì„±ìì¸ íšŒì›ì •ë³´ë¥¼ ì‚­ì œì‹œ 1. writer ì»¬ëŸ¼ì— null
+                        --                         2. í•´ë‹¹ writerê°€ ì“´ ê¸€ì„ ëª¨ë‘ ì‚­ì œ
 );
 
 alter table notice add (
@@ -29,8 +29,7 @@ alter table notice add constraint notice_rid_fk foreign key(rid)
                                 references notice(id) on delete cascade;
 
 
-select id, root, step, indent, rid
-from notice;
+
 update notice set root = id;
 commit;
 
@@ -63,8 +62,8 @@ create table test(
 col1 varchar2(10) default 'val1' not null ,
 col2 varchar2(10) default 'val2' 
 );
-insert into test values('ÀÌ¸§1', '¾ÆÀÌµğ1');
-insert into test(col1) values('ÀÌ¸§1');
+insert into test values('ì´ë¦„1', 'ì•„ì´ë””1');
+insert into test(col1) values('ì´ë¦„1');
 insert into test values(default, default);
 select * from test;
 */
@@ -76,22 +75,31 @@ create or replace trigger trg_notice
     for each row
 begin
     select seq_notice.nextval into :new.id from dual;
---    ¿ø±ÛÀÎ°æ¿ì¸¸
+--    ì›ê¸€ì¸ê²½ìš°ë§Œ rootì— ê°’ ë„£ê¸°
     if ( :new.root is null ) then
         select seq_notice.currval into :new.root from dual;
+    else
+--    ë‹µê¸€ì¸ê²½ìš°
+        update notice set step = step + 1
+        where root = :new.root and step >= :new.step;
     end if;
 end;
 /
 
+select id, root, step, indent, rid
+from notice 
+order by id desc;
+
+
 insert into notice (title, content, writer)
-values ( 'Å×½ºÆ® °øÁö±Û2', 'Å×½ºÆ® °øÁö±Û2ÀÔ´Ï´Ù', 'admin2' );
+values ( 'í…ŒìŠ¤íŠ¸ ê³µì§€ê¸€2', 'í…ŒìŠ¤íŠ¸ ê³µì§€ê¸€2ì…ë‹ˆë‹¤', 'admin2' );
 insert into notice (title, content)
-values ( 'Å×½ºÆ® °øÁö±Û', 'Å×½ºÆ® °øÁö±ÛÀÔ´Ï´Ù' );
+values ( 'í…ŒìŠ¤íŠ¸ ê³µì§€ê¸€', 'í…ŒìŠ¤íŠ¸ ê³µì§€ê¸€ì…ë‹ˆë‹¤' );
 commit;
 
 select * from notice;
 
---°øÁö±ÛÁ¤º¸, ÀÛ¼ºÀÚ ÀÌ¸§ Á¶È¸
+--ê³µì§€ê¸€ì •ë³´, ì‘ì„±ì ì´ë¦„ ì¡°íšŒ
 select row_number() over(order by id) no,  name, n.* 
 from notice n left outer join member m on n.writer = m.user_id
 order by no desc
