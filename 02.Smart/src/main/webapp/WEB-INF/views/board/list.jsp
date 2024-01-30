@@ -62,7 +62,7 @@
 <c:forEach items="${page.list}" var="vo">
 <tr>
 	<td>${vo.no}</td>
-	<td class="text-start">${vo.title }</td>
+	<td class="text-start"><a href="info?id=${vo.id}">${vo.title }</a></td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
 	<td>${vo.readcnt }</td>

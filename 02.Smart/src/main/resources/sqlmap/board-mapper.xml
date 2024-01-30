@@ -2,6 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
+<!-- 첨부파일 저장 -->
+<insert id="fileInsert">
+	<foreach collection="fileList" item="file" open="insert all" 
+							separator=" " close="select * from dual">
+		into board_file ( board_id, filename, filepath )
+		values ( #{id}, #{file.filename}, #{file.filepath} )
+	</foreach>
+</insert>
+
+
+<!-- 신규 글저장 -->
+<insert id="register">
+<selectKey keyProperty="id" resultType="integer" order="AFTER">
+	select seq_board.currval from dual
+</selectKey>
+
+insert into board ( title, content, writer )
+values ( #{title}, #{content}, #{writer} )
+</insert>
+
+<!-- 방명록 글정보 조회 -->
+<select id="info" resultType="board">
+select * 
+from board b left outer join member m 
+  on b.writer = m.user_id 
+where id = #{id}
+</select>
+
+<!-- 조회수변경 -->
+<update id="read">
+update board set readcnt = readcnt + 1
+where id = #{id}
+</update>
+
 <!-- 검색조건 -->
 <sql id="seachWhere">
 <choose>
