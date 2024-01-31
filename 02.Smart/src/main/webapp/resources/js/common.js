@@ -177,6 +177,7 @@ function FileList(){
 			tag = `<div class="py-3 text-center">첨부할 파일을 마우스로 끌어 오세요</div>`
 		}
 		$(".file-drag").html( tag );
+		console.log(">> ", this.files)		
 	}
 }
 

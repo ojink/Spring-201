@@ -29,6 +29,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session, Model model) {
 		//테스트하는 동안 사용할 수 있도록 임시 로그인처리 ----------------------
+//		String user_id = "park2023", user_pw = "Park2023" ;
 		String user_id = "hanul201", user_pw = "Hanul20100" ;
 //		String user_id = "admin1", user_pw = "Manager" ;
 		MemberVO vo = member.member_info(user_id);

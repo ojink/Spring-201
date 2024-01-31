@@ -47,11 +47,18 @@ commit;
 
 select user_id from member;
 
+select  id, board_id, filename from board_file;
+
+select (select count(*) from board_file f where f.board_id = b.id) filecnt, b.* 
+from (select b.*, name, row_number() over(order by id) no
+	  from board b left outer join member m on b.writer = m.user_id  ) b
+order by no desc
+;
 
 
+insert into board ( title, content, writer)
+select title, content, writer from board;
 
-
-
-
+commit;
 
 

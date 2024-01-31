@@ -10,8 +10,6 @@
 <h3 class="mt-4">방명록 목록</h3>
 
 <form method="post" action="list">
-<input type="hidden" name="curPage" value="1">
-
 <div class="row mb-2 justify-content-between">
 	<div class="col-auto">
 		<div class="input-group">
@@ -26,6 +24,14 @@
 		<button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
 		</div>
 	</div>
+	<div class="col-auto">
+		<select name="pageList" class="form-select">
+			<c:forEach var="i" begin="1" end="5">
+			<option value="${10 *i}">${10 *i}개씩</option>
+			</c:forEach>
+		</select>
+	</div>
+	
 	<!-- 로그인되어 있는 경우만 -->
 	<c:if test="${ ! empty loginInfo }">
 	<div class="col-auto">
@@ -34,6 +40,8 @@
 	</div>
 	</c:if>
 </div>
+<input type="hidden" name="id">
+<input type="hidden" name="curPage" value="1">
 </form>
 
 <table class="table tb-list">
@@ -62,7 +70,10 @@
 <c:forEach items="${page.list}" var="vo">
 <tr>
 	<td>${vo.no}</td>
-	<td class="text-start"><a href="info?id=${vo.id}">${vo.title }</a></td>
+	<td class="text-start">
+		<a href="javascript:info( ${vo.id } )">${vo.title }</a>
+		<c:if test="${vo.filecnt gt 0}"><i class="fa-solid fa-paperclip"></i></c:if>
+	</td>
 	<td>${vo.name }</td>
 	<td>${vo.writedate }</td>
 	<td>${vo.readcnt }</td>
@@ -74,5 +85,18 @@
 
 <jsp:include page="/WEB-INF/views/include/page.jsp"/>
 
+<script>
+$("[name=pageList]").change(function(){
+	$("form").submit()
+})
+//해당 목록수가 선택되어져 있게
+$("[name=pageList]").val( ${page.pageList} ).prop("selected", true)
+
+function info( id ){
+	$("[name=id]").val( id );
+	$("[name=curPage]").val( ${page.curPage} );
+	$("form").attr("action", "info").submit();
+}
+</script>
 </body>
 </html>

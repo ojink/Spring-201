@@ -32,12 +32,14 @@
 </tr>
 <tr><th>첨부파일</th>
 	<td colspan="5">
-		<div class="row">
+		<c:forEach items="${vo.fileList}" var="f">
+		<div class="row py-1">
 			<div class="col-auto">
-				<span></span> 
-				<i role="button" class="file-download ms-4 fa-solid fa-file-arrow-down fs-2"></i> 
+				<span class="file-name">${f.filename}</span> 
+				<i role="button" data-file="${f.id}" class="file-download ms-4 fa-solid fa-file-arrow-down fs-2"></i> 
 			</div>
 		</div>
+		</c:forEach>
 	</td>
 </tr>
 </table>
@@ -45,36 +47,42 @@
 <div class="btn-toolbar justify-content-center gap-2">
 	<button class="btn btn-primary" id="btn-list">목록으로</button>
 	<!-- 작성자로 로그인한 경우만 수정/삭제 보이게 -->
-<%-- 	<c:if test="${loginInfo.user_id eq vo.writer}"> --%>
-	<c:if test="${loginInfo.role eq 'ADMIN'}">
+	<c:if test="${loginInfo.user_id eq vo.writer}">
 	<button class="btn btn-primary" id="btn-modify">정보수정</button>
 	<button class="btn btn-primary" id="btn-delete">정보삭제</button>
 	</c:if>
-	<!-- 로그인한 사용자가 답글쓰기 가능하다고 하자 -->
-	<c:if test="${ ! empty loginInfo }">
-	<button class="btn btn-primary" id="btn-reply">답글쓰기</button>
-	</c:if>
-	
 </div>
-<c:set var="params" value="curPage=${page.curPage}&search=${page.search}&keyword=${page.keyword}"/>
+
+<form method="post">
+<input type="hidden" name="id" value="${vo.id}">
+<input type="hidden" name="curPage" value="${page.curPage}">
+<input type="hidden" name="search" value="${page.search}">
+<input type="hidden" name="keyword" value="${page.keyword}">
+<input type="hidden" name="pageList" value="${page.pageList}">
+</form>
 
 <script>
 $(".file-download").click(function(){
-	location = "download?id=${vo.id}"
+	//1.
+	//location = "download?id=" + $(this).data("file")
+	//2.
+	//var file = $(this).data("file")
+	//location = `download?id=\${file}`
+	//3.
+	$("[name=id]").val( $(this).data("file") )
+	$("form").attr("action", "download").submit();
 })
-$("#btn-reply").click(function(){
-	location = "reply?id=${vo.id}&${params}"
-})
-$("#btn-list").click(function(){
-	location = "list?${params}";
-})
-$("#btn-modify").click(function(){
-	location = "modify?id=${vo.id}&${params}";
-})
-$("#btn-delete").click(function(){
-	if( confirm("정말 삭제하시겠습니까?") ){
-		location = "delete?id=${vo.id}&${params}"
-	}
+
+$("#btn-list, #btn-modify, #btn-delete").click(function(){
+	var id = $(this).attr("id");
+	id  = id.substr( id.indexOf("-")+1 );
+	$("form").attr("action", id);
+	if( id == "delete" ){
+		if( confirm("정말 삭제하시겠습니까?") ){
+			$("form").submit();
+		}
+	}else 
+		$("form").submit();
 })
 </script>
 
