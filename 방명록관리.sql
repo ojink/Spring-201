@@ -36,7 +36,6 @@ filepath    varchar2(300) not null,
 board_id    number constraint board_file_fk references board(id) on delete cascade
 );
 
--- 방명록 댓글 관리
 insert into board( title, content, writer )
 values ( '방명록 글1','방명록 글입니다','hong2023' )
 ;
@@ -61,4 +60,30 @@ select title, content, writer from board;
 
 commit;
 
+-- 방명록 댓글 관리
+create table board_comment (
+id            number constraint board_comment_id_pk primary key,
+board_id      number constraint board_board_id_fk references board(id) on delete cascade,
+content       varchar2(1000) not null,
+writer        varchar2(100) constraint board_comment_writer_fk 
+                                references member(user_id) on delete set null,
+writedate     date default sysdate
+);
+
+create sequence seq_board_comment
+start with 1 increment by 1 nocache;
+
+create or replace trigger trg_board_comment
+    before insert on board_comment
+    for each row
+begin
+    select seq_board_comment.nextval into :new.id  from dual;
+end;
+/
+
+
+
+
+
+desc member;
 

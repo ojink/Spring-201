@@ -42,7 +42,7 @@ public class BoardController {
 		}
 		
 		model.addAttribute("id", vo.getId());
-		model.addAttribute("url", "info");
+		model.addAttribute("url", "board/info");
 		model.addAttribute("page", page);
 		
 		return "include/redirect";
@@ -75,7 +75,7 @@ public class BoardController {
 		//삭제후 목록화면으로 연결
 		model.addAttribute("page", page);
 		model.addAttribute("id", id);
-		model.addAttribute("url", "list");
+		model.addAttribute("url", "board/list");
 		return "include/redirect";
 	}
 	
