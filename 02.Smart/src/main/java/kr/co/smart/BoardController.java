@@ -24,10 +24,28 @@ public class BoardController {
 
 	//방명록 수정저장처리 요청
 	@RequestMapping("/update")
-	public void update(BoardVO vo, PageVO page, String remove
+	public String update(BoardVO vo, Model model, PageVO page, String remove  // "1, 2"
 						, MultipartFile[] file, HttpServletRequest request) {
-		//화면에서 입력한 정보로DB에 변경저장한 후 화면으로 정보화면으로 연결
-		// "1, 2"
+		//화면에서 입력한 정보로DB에 변경저장한 후 정보화면으로 연결
+		//첨부파일이 있으면 BoardVO 의 fileList에 담기
+		vo.setFileList( common.multipleFileUpload("board", file, request) );
+		if( service.board_update(vo)==1 ) {
+			//삭제된 첨부파일이 있으면 DB에서 삭제+물리적파일도 삭제
+			if( ! remove.isEmpty() ) {
+				List<FileVO> list = service.board_file_list(remove);
+				if( service.board_file_delete(remove) > 0 ) {
+					for( FileVO f : list ) {
+						common.fileDelete(f.getFilepath(), request);
+					}
+				}
+			}
+		}
+		
+		model.addAttribute("id", vo.getId());
+		model.addAttribute("url", "info");
+		model.addAttribute("page", page);
+		
+		return "include/redirect";
 	}
 	
 	

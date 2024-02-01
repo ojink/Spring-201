@@ -27,9 +27,17 @@ public class BoardService {
 	public List<FileVO> board_file_list(int id){ //board의 id
 		return sql.selectList("board.fileList", id);
 	}
+	public List<FileVO> board_file_list(String remove){ //board_file의 id들
+		return sql.selectList("board.removeFileList", remove);
+	}
+
 	//파일정보 조회
 	public FileVO board_file_info(int id) { //board_file의 id
 		return sql.selectOne("board.fileInfo", id);
+	}
+	//파일삭제
+	public int board_file_delete(String remove) {
+		return sql.delete("board.fileDelete", remove);
 	}
 	
 	//방명록 목록 조회
@@ -47,7 +55,12 @@ public class BoardService {
 	}
 	//방명록 정보 변경저장처리
 	public int board_update(BoardVO vo) {
-		return 0;
+		int dml = sql.update("board.update", vo);
+		//첨부파일저장
+		if( dml==1 && vo.getFileList()!=null ) {
+			sql.insert("board.fileInsert", vo);
+		}
+		return dml;
 	}
 	//방명록 정보 조회수 변경저장
 	public int board_read(int id) {
