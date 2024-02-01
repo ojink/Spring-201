@@ -60,6 +60,7 @@
 <input type="hidden" name="search" value="${page.search}">
 <input type="hidden" name="keyword" value="${page.keyword}">
 <input type="hidden" name="pageList" value="${page.pageList}">
+<input type="hidden" name="remove"> <!-- 삭제한 파일id -->
 </form>
 
 <div class="btn-toolbar justify-content-center gap-2">
@@ -72,7 +73,7 @@
 var fileList = new FileList();
 //첨부된 파일정보를 FileList 객체에 담기
 <c:forEach items="${vo.fileList}" var="f">
-fileList.setFile( urlToFile( "${f.filepath}", "${f.filename}" ) )
+fileList.setFile( urlToFile( "${f.filepath}", "${f.filename}" ), ${f.id} )
 </c:forEach>
 console.log( "fileList> ", fileList )
 
@@ -93,6 +94,7 @@ function urlToFile( url, filename ){
 $("#btn-save").click(function(){
 	if( emptyCheck() ){ //입력이 되어 있는 경우만 서브밋
 		multipleFileUpload();
+		$("[name=remove]").val( fileList.info.remove ) //  1, 2
 		$("form").submit();
 	}
 })

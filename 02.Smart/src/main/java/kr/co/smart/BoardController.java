@@ -22,6 +22,15 @@ import kr.co.smart.common.PageVO;
 public class BoardController {
 	@Autowired private BoardService service;
 
+	//방명록 수정저장처리 요청
+	@RequestMapping("/update")
+	public void update(BoardVO vo, PageVO page, String remove
+						, MultipartFile[] file, HttpServletRequest request) {
+		//화면에서 입력한 정보로DB에 변경저장한 후 화면으로 정보화면으로 연결
+		// "1, 2"
+	}
+	
+	
 	//방명록 수정화면 요청
 	@RequestMapping("/modify")
 	public String modify(int id, Model model, PageVO page) {
