@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.smart.board.BoardCommentVO;
 import kr.co.smart.board.BoardService;
 import kr.co.smart.board.BoardVO;
 import kr.co.smart.common.CommonUtility;
@@ -58,6 +60,11 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+	//댓글 등록저장처리 요청
+	@ResponseBody @RequestMapping("/comment/register")
+	public boolean comment_register(BoardCommentVO vo) {
+		return service.board_comment_register(vo) == 1 ? true : false;
+	}
 	
 	//방명록 글삭제처리 요청
 	@RequestMapping("/delete")

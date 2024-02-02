@@ -34,7 +34,7 @@ public class HomeController {
 //		String user_id = "admin1", user_pw = "Manager" ;
 		MemberVO vo = member.member_info(user_id);
 		if( pwEncoder.matches(user_pw, vo.getUser_pw()) ) {
-//			session.setAttribute("loginInfo", vo);
+			session.setAttribute("loginInfo", vo);
 		}
 		//---------------------------------------------------------
 		

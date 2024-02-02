@@ -23,6 +23,24 @@ public class BoardService {
 		return dml;
 	}
 	
+	//댓글 등록저장처리
+	public int board_comment_register(BoardCommentVO vo) {
+		return sql.insert("board.commentRegister", vo);
+	}
+	//댓글 변경저장처리
+	public int board_comment_update(BoardCommentVO vo) {
+		return 0;
+	}
+	//댓글 삭제처리
+	public int board_comment_delete(int id) {
+		return 0;
+	}
+	//댓글 목록조회
+	public List<BoardCommentVO> board_comment_list(int board_id){
+		return null;
+	}
+	
+	
 	//파일목록 조회
 	public List<FileVO> board_file_list(int id){ //board의 id
 		return sql.selectList("board.fileList", id);
