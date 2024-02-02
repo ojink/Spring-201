@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +59,13 @@ public class BoardController {
 		model.addAttribute("vo", service.board_info(id));
 		model.addAttribute("page", page);
 		return "board/modify";
+	}
+	
+	//댓글 목록조회
+	@RequestMapping("/comment/list/{board_id}")
+	public String comment_list(@PathVariable int board_id, Model model) {
+		model.addAttribute("list", service.board_comment_list(board_id) );
+		return "board/comment/comment_list";
 	}
 	
 	//댓글 등록저장처리 요청

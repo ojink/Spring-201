@@ -13,7 +13,22 @@
 	</div>
 </div>
 
+<div id="comment-list" class="row justify-content-center mx-0">
+</div>
+
 <script>
+commentList();
+
+//댓글목록조회
+function commentList(){
+	$.ajax({
+		url: "comment/list/${vo.id}",
+		//url: "<c:url value='/hr/list'/>",
+	}).done(function( response ){
+		//console.log( response );
+		$("#comment-list").html( response )
+	})
+}
 
 $(".btn-register").click(function(){
 	$.ajax({

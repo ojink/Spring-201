@@ -37,7 +37,7 @@ public class BoardService {
 	}
 	//댓글 목록조회
 	public List<BoardCommentVO> board_comment_list(int board_id){
-		return null;
+		return sql.selectList("board.commentList", board_id);
 	}
 	
 	

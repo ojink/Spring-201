@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
+<!-- 댓글목록조회 -->
+<select id="commentList" resultType="boardComment">
+select name, c.* 
+from board_comment c left outer join member m 
+						on c.writer = m.user_id
+where board_id = #{board_id}
+</select>
+
 <!-- 댓글신규저장 -->
 <insert id="commentRegister">
 insert into board_comment (board_id, content, writer)
