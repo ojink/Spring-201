@@ -77,12 +77,13 @@ $("#comment-regist .comment").click(function(){
 
 $(document)
 .on("keyup", "#comment-regist textarea", function(){
-	var input = $(this).val();
-	if( input.length > 200 ){
-		alert("최대 200자까지 입력할 수 있습니다");
-		input = input.substr(0,200);
-		$(this).val( input );
-	}
+// 	var input = $(this).val();
+// 	if( input.length > 200 ){
+// 		alert("최대 200자까지 입력할 수 있습니다");
+// 		input = input.substr(0,200);
+// 		$(this).val( input );
+// 	}
+	var input = writing( $(this) );
 	
 	$("#comment-regist .writing").text( input.length );
 	if( input.length > 0 )	$(".btn-register").removeClass( "d-none" )
@@ -90,8 +91,22 @@ $(document)
 	
 }).on("contextmenu", "#comment-regist textarea", function(e){
 	e.preventDefault(); //textarea 에 우클릭 방지
+	
+}).on("keyup", "#comment-list textarea", function(){
+	var input = writing( $(this) );
+	$(this).closest(".comment").find(".writing").text( input.length );
+	
 })
 
+function writing( tag ){
+	var input = tag.val();
+	if( input.length > 200 ){
+		alert("최대 200자까지 입력할 수 있습니다");
+		input = input.substr(0,200);
+		tag.val( input );
+	}
+	return input;
+}
 
 
 </script>
