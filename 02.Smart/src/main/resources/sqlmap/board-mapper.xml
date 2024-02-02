@@ -4,10 +4,11 @@
 
 <!-- 댓글목록조회 -->
 <select id="commentList" resultType="boardComment">
-select name, c.* 
+select name, profile, c.* 
 from board_comment c left outer join member m 
 						on c.writer = m.user_id
 where board_id = #{board_id}
+order by writedate desc
 </select>
 
 <!-- 댓글신규저장 -->

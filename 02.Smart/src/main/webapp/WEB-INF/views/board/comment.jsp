@@ -41,6 +41,7 @@ $(".btn-register").click(function(){
 		if( response ){
 			alert("댓글이 등록되었습니다");
 			initComment();
+			commentList();
 		}else{
 			alert("댓글이 등록 실패ㅠㅠ");			
 		}
