@@ -29,7 +29,7 @@ public class BoardService {
 	}
 	//댓글 변경저장처리
 	public int board_comment_update(BoardCommentVO vo) {
-		return 0;
+		return sql.update("board.commentUpdate", vo);
 	}
 	//댓글 삭제처리
 	public int board_comment_delete(int id) {

@@ -11,7 +11,7 @@
 </c:if>	
 <!-- 댓글이 있는 경우 -->
 <c:forEach items="${list}" var="vo">
-	<div class="comment w-pct80 py-3 border-bottom">
+	<div class="comment w-pct80 py-3 border-bottom" data-id="${vo.id}">
 		<div class="d-flex justify-content-between">
 			<div class="d-flex align-items-center mb-2">
 				<span class="me-2">
@@ -45,6 +45,20 @@ $(".btn-modify-save").click(function(){
 	//수정
 	if( $(this).text()=="수정" ){
 		modifyStatus( _comment );
+	}else{
+		$.ajax({
+			url: "comment/update",
+			data: { id: _comment.data("id"), content: _comment.find("textarea").val() }
+		}).done(function(response){
+			console.log( response );
+			alert( response.message );
+			if( response.success ){
+				//변경대상인 댓글의 내용만 반영
+				_comment.find(".hidden").text( response.content );
+				infoStatus( _comment );  //변경내용만 화면에 반영하는 경우
+			}
+			//commentList();  //목록을 다시 조회해오는 경우
+		})
 	}
 })
 
@@ -55,7 +69,14 @@ $(".btn-delete-cancel").click(function(){
 	if( $(this).text()=="취소" ){
 		infoStatus( _comment );
 	}else{
-		
+		if( confirm("정말 댓글을 삭제하시겠습니까?") ){
+			$.ajax({
+				url: "comment/delete",
+				data: { id: _comment.data("id") }
+			}).done(function( response ){
+				
+			})
+		}
 	}
 })
 

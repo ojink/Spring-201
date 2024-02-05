@@ -1,6 +1,8 @@
 package kr.co.smart;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +61,33 @@ public class BoardController {
 		model.addAttribute("vo", service.board_info(id));
 		model.addAttribute("page", page);
 		return "board/modify";
+	}
+	
+	
+	//댓글 삭제처리 요청
+	@RequestMapping("/comment/delete")
+	public Map<String,Object> comment_delete( int id ) {
+//	public Object comment_delete( int id ) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		if( service.board_comment_delete(id)==1 ) {
+			
+		}
+		return map;
+	}
+	
+	//댓글 변경저장처리 요청
+	@ResponseBody @RequestMapping("/comment/update")
+	public Object comment_update(BoardCommentVO vo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if( service.board_comment_update(vo)==1 ) {
+			map.put("success", true);
+			map.put("message", "성공^^");
+			map.put("content", vo.getContent());
+		}else{
+			map.put("success", false);
+			map.put("message", "실패ㅠㅠ");
+		}
+		return map;
 	}
 	
 	//댓글 목록조회
