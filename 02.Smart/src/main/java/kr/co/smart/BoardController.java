@@ -65,14 +65,16 @@ public class BoardController {
 	
 	
 	//댓글 삭제처리 요청
-	@RequestMapping("/comment/delete")
+	@ResponseBody @RequestMapping("/comment/delete")
 	public Map<String,Object> comment_delete( int id ) {
 //	public Object comment_delete( int id ) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		if( service.board_comment_delete(id)==1 ) {
-			
+			map.put("success", true);
+		}else {
+			map.put("success", false);
 		}
-		return map;
+		return map; 
 	}
 	
 	//댓글 변경저장처리 요청
