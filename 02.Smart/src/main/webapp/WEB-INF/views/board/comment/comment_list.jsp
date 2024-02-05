@@ -74,7 +74,12 @@ $(".btn-delete-cancel").click(function(){
 				url: "comment/delete",
 				data: { id: _comment.data("id") }
 			}).done(function( response ){
-				
+				if( response.success ){
+					// 화면에서 해당 댓글 삭제
+					_comment.remove();
+				}else{
+					alert("댓글이 삭제되지 않았습니다");
+				}
 			})
 		}
 	}
