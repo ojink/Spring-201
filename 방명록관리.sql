@@ -84,6 +84,8 @@ end;
 
 select * from board_comment;
 select user_id, profile from member;
+select * from board
+where id = 768;
 
 
 
