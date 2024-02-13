@@ -40,17 +40,34 @@
 			</label>
 		</div>
 	</div>
+	<div class="tab text-center mb-3">
+		<div class="form-check form-check-inline">
+			<label class="form-check-label" >
+				<input class="form-check-input" type="checkbox" id="top3">TOP3부서
+			</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<label class="form-check-label" >
+				<input class="form-check-input" type="radio" name="unit" value="year" checked>년도별
+			</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<label class="form-check-label" >
+				<input class="form-check-input" type="radio" name="unit" value="month" >월별
+			</label>
+		</div>
+	</div>
 
 	<canvas id="chart" class="m-auto" style="height:100%"></canvas>
 </div>
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 <script>
+
+
 function makeLegend(){
 	var li = "";
 	var i;
@@ -60,7 +77,7 @@ function makeLegend(){
 	li += `<li class="col-auto"><span></span><font>\${i*10}명이상</font></li>`;
 	
 	var tag = `
-		<ul class="row d-flex justify-content-center" id="legend">
+		<ul class="mt-5 row d-flex justify-content-center" id="legend">
 			\${li}
 		</ul>	
 	`;
@@ -91,6 +108,10 @@ $("ul.nav-tabs li").on({
 		$(this).children("a").addClass("active");
 		
 		var idx = $(this).index();
+		
+		$("#tab-content .tab").addClass("d-none");
+		$("#tab-content .tab").eq(idx).removeClass("d-none");
+		
 		if ( idx==0 )		department();
 		else if( idx==1 )	hirement();
 	},
@@ -102,8 +123,78 @@ $("ul.nav-tabs li").on({
 	}
 })
 
+//막대/도넛 그래프 종류 라디오 변경시
+$("[name=chart]").change(function(){
+	department();
+})
+
+//년도별/월별 라디오 변경시
+//TOP3부서 선택/해제시
+$("[name=unit], #top3").change(function(){
+	if( $("#top3").prop("checked") )  hirement_top3();
+	else hirement();
+})
+
+function hirement_top3(){
+	initChart();
+	
+	var unit = $("[name=unit]:checked").val();
+	$.ajax( { 
+		url: "hirement/top3/"+ unit
+	}).done(function(response){
+		console.log(response )
+		
+		var info = {};
+		info.category = response.unit;
+		info.type = unit == "year" ? "bar" : "line";
+		info.datas = [], info.label= [];
+		
+		$(response.list).each(function(idx, dept ){
+			info.label.push( this.DEPARTMENT_NAME );
+			var datas = info.category.map( function(item ){
+				return dept[item]; 
+			})
+			info.datas.push(datas);
+		})
+		console.log( info )
+		top3Chart( info );
+	})
+	
+}
+
+function top3Chart( info ){
+	var datas = [];
+	for( var idx=0; idx<info.datas.length; idx++ ){
+		var department = {};
+		department.data = info.datas[idx];
+		department.label = info.label[idx];
+		department.backgroundColor = colors[idx];
+		datas.push( department );
+	}
+	
+	new Chart( $("#chart"), {
+		type: info.type,
+		data: {
+			labels: info.category,
+			datasets: datas, // [ {}, {}, {}, {}  ]
+		}
+		
+		
+	} )
+	
+}
+
+function initChart(){
+	$("#legend").remove();
+	$("canvas#chart").remove();
+	$("#tab-content").append( `<canvas id="chart" class="m-auto" style="height:100%"></canvas>` );
+}
+
 //부서원수
 function department(){
+	//if( typeof visual != "undefined" )  visual.destroy(); //그래프를 아예 바꾸는것에 제대로 영향을 미치지 못함
+	initChart();	
+	
 	//sampleChart();
 	$.ajax({
 		url: "department"
@@ -119,12 +210,17 @@ function department(){
 			//사원수에 따라 색상값 배열 만들기
 			info.colors.push( colors[ Math.floor( this.COUNT/10 ) ] )
 		})
-		//barChart( info );		
 		//lineChart( info );
-		doughnutChart( info );
+		if( $("[name=chart]:checked").val()=="bar" )
+			barChart( info );
+		else
+			doughnutChart( info );
+		
+		//visual.update(); 그래프를 아예 바꾸는것에 제대로 영향을 미치지 못함
 	})
 }
 
+var visual;
 function doughnutChart( info ){
 	//각 데이터에 대한 백분율 구하기
 	var sum = 0;
@@ -136,7 +232,7 @@ function doughnutChart( info ){
 	} )
 	console.log( sum, info )
 	
-	new Chart( $("#chart"), {
+	visual = new Chart( $("#chart"), {
 		type: 'doughnut',
 		data: {
 			labels: info.category,
@@ -228,7 +324,7 @@ var colors = [ "#23cf51", "#b31b0b", "#0c42f5", "#6c48fa", "#dc48fa"
 function barChart( info ){
 	console.log( info )
 	
-	new Chart( $("#chart"), {
+	visual = new Chart( $("#chart"), {
 		type : "bar",
 		data : {
 			labels: info.category,
@@ -298,12 +394,63 @@ function sampleChart(){
 
 //채용인원수
 function hirement(){
+	initChart();
+	
+	var unit = $("[name=unit]:checked").val();
+	
+	$.ajax({
+		url: "hirement/" + unit
+	}).done(function( response ){
+		console.log( response )
+		
+		var info = {};
+		info.datas = [], info.category = [], info.colors = [];
+		
+		$(response).each(function(){
+			info.datas.push( this.COUNT );
+			info.category.push( this.UNIT );
+			info.colors.push( colors[ Math.floor(this.COUNT/10) ] );
+		})
+		
+		info.title = (unit == "year" ? "년도별 " : "월별 " ) + "채용인원수"
+		unitChart( info );
+	})
 	
 }
 
+function unitChart( info ){
+	new Chart( $("#chart"), {
+		type: "bar",
+		data: {
+			labels: info.category,
+			datasets: [{
+				data: info.datas,
+				barPercentage: 0.5,
+				backgroundColor: info.colors,
+			}]
+		},
+		options: {
+			plugins: {
+				legend: { display:false },
+			},
+			reponsive: false,
+			maintainAspectRatio: false,
+			scales:{
+				y: {
+					title: { text: info.title,  display: true },
+				}
+			}
+		}
+	} )
+	
+	makeLegend();
+}
+
+
+
 
 $(function(){
-	$("ul.nav-tabs li").eq(0).trigger("click"); //부서원수 탭 강제 클릭
+	$("ul.nav-tabs li").eq(1).trigger("click"); //부서원수 탭 강제 클릭
 })
 </script>
 
