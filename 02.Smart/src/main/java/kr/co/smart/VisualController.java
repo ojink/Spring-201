@@ -29,24 +29,30 @@ public class VisualController {
 		int end =  Integer.parseInt( map.get("end").toString() );
 		String range = "";
 		for(int year = begin; year <= end; year++ ) {
-			range +=   (range.isEmpty()? "" : ", " ) + year + "\"" + year + "년\"" ;
+			range +=   (range.isEmpty()? "" : ", " ) + year + " \"" + year + "년\"" ;
 			//2012 "2012년", 2013 "2013년", 2014 "2014년"
 		}
+		map.put("range", range);
 		return map;
 	}
 	
 	
 	//상위3개부서의 채용인원수 년도별 조회 요청
 	@RequestMapping("/hirement/top3/year")
-	public Object hirement_top3_year(@RequestBody HashMap<String, Object> map) {
-		List<HashMap<String, Object>> list = service.hirement_top3_year( yearRange(map) );
-		//단위 추출
-		Object[] keys = list.get(0).keySet().toArray();
-		Arrays.sort(keys);
-		keys = Arrays.copyOfRange(keys, 0, keys.length-1); //department_name 제외 : 0~10
+	public Object hirement_top3_year(
+			@RequestBody HashMap<String, Object> map) {
+		List<HashMap<String, Object>> list 
+			= service.hirement_top3_year( yearRange(map) );
+		
+		if( list.size() > 0 ) {
+			//단위 추출
+			Object[] keys = list.get(0).keySet().toArray();
+			Arrays.sort(keys);
+			keys = Arrays.copyOfRange(keys, 0, keys.length-1); //department_name 제외 : 0~10
+			map.put("unit", keys);
+		}
 		
 		map.put("list", list);
-		map.put("unit", keys);
 		
 		return map;
 	}

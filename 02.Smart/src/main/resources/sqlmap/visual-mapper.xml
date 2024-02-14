@@ -6,7 +6,7 @@
 <select id="hirementTop3Year" resultType="hashmap">
 <![CDATA[  
 select *
-from ( select to_char(hire_date, 'yyyy')||'년' unit, department_name
+from ( select to_char(hire_date, 'yyyy') unit, department_name
         from employees e inner join (
             select rank, department_id
                    , '(TOP' || rank || ')' || department_name  department_name
@@ -16,11 +16,7 @@ from ( select to_char(hire_date, 'yyyy')||'년' unit, department_name
             where rank <= 3 ) r using( department_id ) 
         where to_char(hire_date, 'yyyy') between #{begin} and #{end}    
       )
-pivot ( count(*) for unit in ( '2012년' "2012년", '2013년' "2013년", '2014년' "2014년"
-							 , '2015년' "2015년", '2016년' "2016년"
-							 , '2017년' "2017년", '2018년' "2018년", '2019년' "2019년"
-                             , '2020년' "2020년", '2021년' "2021년", '2022년' "2022년"
-                             , '2023년' "2023년", '2024년' "2024년"))
+pivot ( count(*) for unit in ( ${range} ))
 order by department_name
 ]]>
 </select>

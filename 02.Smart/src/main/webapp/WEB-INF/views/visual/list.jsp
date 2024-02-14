@@ -185,7 +185,8 @@ function hirement_top3(){
 		url: "hirement/top3/"+ unit,
 		type: "post",
 		contentType: "application/json",
-		data: JSON.stringify( { begin:$("#begin").val(), end:$("#end").val() } )
+		data: JSON.stringify( { begin:$("#begin").val()
+								, end:$("#end").val() } )
 	}).done(function(response){
 		console.log(response )
 		
