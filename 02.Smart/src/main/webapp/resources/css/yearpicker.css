@@ -2,7 +2,7 @@
     --background-color: #fff;
     --border-color: #ccc;
     --text-color: #555;
-    --selected-text-color: rgb(56, 241, 164);
+    --selected-text-color:#0d6efd; /*  rgb(56, 241, 164); */
     --hover-background-color: #eee;
 }
 
@@ -61,6 +61,8 @@
 
 .yearpicker-items.selected {
     color: var(--selected-text-color);
+    background-color: var(--hover-background-color);
+    font-weight: bold;
 }
 
 .hide {

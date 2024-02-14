@@ -13,7 +13,9 @@ from ( select to_char(hire_date, 'yyyy')||'년' unit, department_name
             from (select  dense_rank() over( order by count(*) desc ) rank, department_id
                   from employees
                   group by department_id) e left outer join departments d using( department_id)
-            where rank <= 3 ) r using( department_id ) )
+            where rank <= 3 ) r using( department_id ) 
+        where to_char(hire_date, 'yyyy') between #{begin} and #{end}    
+      )
 pivot ( count(*) for unit in ( '2012년' "2012년", '2013년' "2013년", '2014년' "2014년"
 							 , '2015년' "2015년", '2016년' "2016년"
 							 , '2017년' "2017년", '2018년' "2018년", '2019년' "2019년"
@@ -45,6 +47,7 @@ order by department_name
 <select id="hirementYear" resultType="hashmap">
 	select to_char(hire_date,'yyyy')||'년' unit, count(employee_id) count
 	from employees
+	where to_char(hire_date,'yyyy') between #{begin} and #{end}
 	group by to_char(hire_date,'yyyy')
 	order by unit
 </select>
