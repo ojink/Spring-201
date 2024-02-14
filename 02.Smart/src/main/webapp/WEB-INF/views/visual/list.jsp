@@ -9,6 +9,7 @@
 #legend span { width: 44px; height:17px; margin-right: 5px }
 #legend li { display: flex; align-items: center; }
 </style>
+<link href="<c:url value='/css/yearpicker.css'/>" rel="stylesheet">
 </head>
 <body>
 <h3 class="mb-4">사원정보분석</h3>
@@ -65,8 +66,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+<script src="<c:url value='/js/yearpicker.js'/>"></script>
 <script>
-
 
 function makeLegend(){
 	var li = "";
@@ -156,6 +157,7 @@ function hirement_top3(){
 			})
 			info.datas.push(datas);
 		})
+		info.title = `상위3위 부서의 \${unit == 'year' ? "년도별": "월별"} 채용인원수`;
 		console.log( info )
 		top3Chart( info );
 	})
@@ -168,7 +170,8 @@ function top3Chart( info ){
 		var department = {};
 		department.data = info.datas[idx];
 		department.label = info.label[idx];
-		department.backgroundColor = colors[idx];
+		department.backgroundColor = colors[idx]; //막대그래프용
+		department.borderColor = colors[idx]; //선그래프용
 		datas.push( department );
 	}
 	
@@ -177,6 +180,15 @@ function top3Chart( info ){
 		data: {
 			labels: info.category,
 			datasets: datas, // [ {}, {}, {}, {}  ]
+		},
+		options: {
+			scales: {
+				y: {
+					title: { text: info.title, display: true }
+				}
+			},
+			responsive: false,
+			maintainAspectRatio: false,
 		}
 		
 		

@@ -40,7 +40,17 @@ public class VisualController {
 	}
 	@RequestMapping("/hirement/top3/month")
 	public Object hirement_top3_month() {
-		return service.hirement_top3_month();
+		List<HashMap<String, Object>>  list = service.hirement_top3_month();
+		
+		HashMap<String, Object>  map = new HashMap<String, Object>();
+		map.put("list", list);
+		
+		Object[] keys = list.get(0).keySet().toArray();
+		Arrays.sort(keys);
+		keys = Arrays.copyOfRange(keys, 0, keys.length-1); //department_name 제외 : 0~10
+		
+		map.put("unit", keys);
+		return map; 
 	}
 	
 	

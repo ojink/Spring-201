@@ -58,8 +58,9 @@ pivot ( count(*) for unit in ( '01' "01월", '02' "02월", '03' "03월", '04' "0
                              ,  '07' "07월",'08' "08월", '09' "09월", '10' "10월",  '11' "11월",  '12'  "12월") )
 ;
 
+-- 3위부서의 년도별 채용인원수
 select *
-from ( select to_char(hire_date, 'mm') unit, department_name
+from ( select to_char(hire_date, 'yyyy')||'년' unit, department_name
         from employees e inner join (
             select rank, department_id
                    , '(TOP' || rank || ')' || department_name  department_name
@@ -67,10 +68,23 @@ from ( select to_char(hire_date, 'mm') unit, department_name
                   from employees
                   group by department_id) e left outer join departments d using( department_id)
             where rank <= 3 ) r using( department_id ) )
-pivot ( count(*) for unit in ( '01' "01월", '02' "02월", '03' "03월", '04' "04월", '05'  "05월", '06'  "06월"
-                             ,  '07' "07월",'08' "08월", '09' "09월", '10' "10월",  '11' "11월",  '12'  "12월") )
+pivot ( count(*) for unit in ( '2012년', '2013년', '2014년', '2015년', '2016년', '2017년', '2018년', '2019년'
+                             , '2020년', '2021년', '2022년', '2023년', '2024년'))
 ;
 
+select *
+from ( select to_char(hire_date, 'yyyy') unit, department_name
+        from employees e inner join (
+            select rank, department_id
+                   , '(TOP' || rank || ')' || department_name  department_name
+            from (select  dense_rank() over( order by count(*) desc ) rank, department_id
+                  from employees
+                  group by department_id) e left outer join departments d using( department_id)
+            where rank <= 3 ) r using( department_id ) )
+pivot ( count(*) for unit in ( 2012 "2012년", 2013 "2013년", 2014 "2014년", 2015 "2015년"
+                             , 2016 "2016년", 2017 "2017년", 2018 "2018년", 2019 "2019년"
+                             , 2020 "2020년", 2021 "2021년", 2022 "2022년",2023 "2023년", 2024 "2024년"))
+;
 
 --세로행 가로로, 가로행 세로로 변환 : pivot, unpivot
 -- 열(가로행)로 된 데이터행 
